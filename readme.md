@@ -78,6 +78,24 @@ A single request using the Laravel route `/bench4` takes about `22.779` ms, whic
 Here's the sample output of `ab -n1000 -c10 http://localhost/bench4`:
 
 ```
+This is ApacheBench, Version 2.3 <$Revision: 655654 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
 Server Software:        Apache/2.4.9
 Server Hostname:        localhost
 Server Port:            80
@@ -85,35 +103,36 @@ Server Port:            80
 Document Path:          /bench4
 Document Length:        27 bytes
 
-Concurrency Level:      10
-Time taken for tests:   16.059 seconds
+Concurrency Level:      20
+Time taken for tests:   18.512 seconds
 Complete requests:      1000
 Failed requests:        0
 Write errors:           0
-Total transferred:      755220 bytes
+Total transferred:      755044 bytes
 HTML transferred:       27000 bytes
-Requests per second:    62.27 [#/sec] (mean)
-Time per request:       160.592 [ms] (mean)
-Time per request:       16.059 [ms] (mean, across all concurrent requests)
-Transfer rate:          45.92 [Kbytes/sec] received
+Requests per second:    54.02 [#/sec] (mean)
+Time per request:       370.236 [ms] (mean)
+Time per request:       18.512 [ms] (mean, across all concurrent requests)
+Transfer rate:          39.83 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    0   0.6      0      16
-Processing:    20  159 198.4    131    2105
-Waiting:       14  141 195.1    102    2099
-Total:         20  159 198.5    132    2105
+Connect:        0    0   2.0      0      25
+Processing:    32  362 595.9    290    6650
+Waiting:       32  328 592.2    268    6649
+Total:         32  362 596.0    291    6650
 
 Percentage of the requests served within a certain time (ms)
-  50%    132
-  66%    160
-  75%    184
-  80%    205
-  90%    269
-  95%    325
-  98%    601
-  99%   1356
- 100%   2105 (longest request)
+  50%    291
+  66%    335
+  75%    382
+  80%    438
+  90%    564
+  95%    725
+  98%   1630
+  99%   4135
+ 100%   6650 (longest request)
+
 ```
 
 Here's the output without concurrency (`-c1`):
