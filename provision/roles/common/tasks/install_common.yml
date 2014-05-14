@@ -10,12 +10,6 @@
     - unzip
     - vim
 
-- name: install language packs for locales
-  apt: name={{ item }} state=latest
-  with_items:
-    - language-pack-de-base
-    - language-pack-es-base
-
 - name: install python-pip
   apt: name={{ item }} state=present
   with_items:

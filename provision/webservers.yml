@@ -8,5 +8,5 @@
 
    roles:
      - common
-     - web-custom
      - web-specific
+     - web-custom

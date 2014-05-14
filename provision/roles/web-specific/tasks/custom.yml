@@ -8,12 +8,11 @@
     - /var/cache/laravel/meta
     - /var/cache/laravel/sessions
     - /var/cache/laravel/views
-  when: not quick
 
-- file: path={{ item }} mode=0644 owner={{ deploy_user }} group={{ deploy_user }} state=directory
+- file: path={{ item }} mode=0755 owner={{ deploy_user }} group={{ deploy_user }} state=directory
   sudo: true
   with_items:
-    - /var/www/laravel/public
-  when: not quick
+    - /var/www/laravel
 
-- synchronize: src=public dest=/var/www/laravel/public
+- synchronize: src=../src/ dest=/var/www/laravel/
+  sudo: false
