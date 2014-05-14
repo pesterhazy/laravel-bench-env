@@ -63,11 +63,11 @@ The resulting numbers are written to `public/benchmark.csv`. If you have enabled
 
 Here are the results of a run on an `m3.medium` instance
 
-    url;requests per second
-    bench1.php;1621.42
-    bench2.php;461.15
-    bench3;36.24
-    bench4;25.46
+    url;requests per second;workload
+    bench1.php;1621.42;PHP without framework, simple echo response
+    bench2.php;461.15;PHP without framework, insert row into local mysql db
+    bench3;36.24;Laravel, simple echo response
+    bench4;25.46;Laravel, insert row into local mysql db
 
 In other words, inserting a single row can be performed **461.15 times per second** using a bare PHP script, but only **25.46 times per second** using a Laravel route.
 
