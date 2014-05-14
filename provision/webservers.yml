@@ -1,0 +1,12 @@
+---
+ - hosts: testservers
+   user: ubuntu
+   sudo: True
+   vars:
+     customenv: production
+     deploy_user: ubuntu
+
+   roles:
+     - common
+     - web-custom
+     - web-specific

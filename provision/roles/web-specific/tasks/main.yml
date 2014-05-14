@@ -1,0 +1,6 @@
+---
+- include: install.yml
+  sudo: true
+
+- include: custom.yml
+  sudo: false

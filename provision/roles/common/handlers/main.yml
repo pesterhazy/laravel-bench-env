@@ -1,0 +1,17 @@
+# Caution: all handlers must be called with sudo:true
+# or else they will fail silently.
+#
+# TODO! WARNING WARNING WARNING: always use `sudo: true`!
+#
+
+- name: restart rsyslog
+  action: service name=rsyslog state=restarted
+  sudo: true
+
+- name: restart cron
+  action: service name=cron state=restarted
+  sudo: true
+
+- name: reload supervisor
+  shell: supervisorctl reread && supervisorctl update
+  sudo: true 

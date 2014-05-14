@@ -1,0 +1,11 @@
+---
+- template: src=custom.conf dest=/etc/apache2/sites-enabled/custom.conf
+  notify: restart apache
+
+- name: reconfigure apache to handle more connections
+  copy: src=mpm_prefork.conf dest=/etc/apache2/mods-available/mpm_prefork.conf
+  notify: restart apache
+
+- name: create symlink for mpm_prefork.conf
+  file: src=/etc/apache2/mods-available/mpm_prefork.conf dest=/etc/apache2/mods-enabled/mpm_prefork.conf state=link
+  notify: restart apache

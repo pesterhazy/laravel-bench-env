@@ -1,0 +1,24 @@
+- name: Update apt-get cache
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: install misc packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - rubygems
+    - git-core
+    - curl
+    - unzip
+    - vim
+
+- name: install language packs for locales
+  apt: name={{ item }} state=latest
+  with_items:
+    - language-pack-de-base
+    - language-pack-es-base
+
+- name: install python-pip
+  apt: name={{ item }} state=present
+  with_items:
+    - python-pip
+    - python-dev
+    - python-pycurl

@@ -1,0 +1,19 @@
+- file: path={{ item }} mode=0777 owner={{ deploy_user }} group={{ deploy_user }} state=directory
+  sudo: true
+  with_items:
+    - /var/cache/laravel
+    - /var/cache/laravel/cache
+    - /var/cache/laravel/clockwork
+    - /var/cache/laravel/logs
+    - /var/cache/laravel/meta
+    - /var/cache/laravel/sessions
+    - /var/cache/laravel/views
+  when: not quick
+
+- file: path={{ item }} mode=0644 owner={{ deploy_user }} group={{ deploy_user }} state=directory
+  sudo: true
+  with_items:
+    - /var/www/laravel/public
+  when: not quick
+
+- synchronize: src=public dest=/var/www/laravel/public

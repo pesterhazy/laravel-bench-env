@@ -1,0 +1,104 @@
+- name: create /var/www
+  file: path=/var/www state=directory
+
+# Apache2 
+
+- name: ensure apache is installed
+  apt: name=apache2-mpm-prefork state=present
+
+- file: path=/etc/apache2/conf.d state=directory
+
+- copy: src=fqdn.conf dest=/etc/apache2/conf.d/fqdn.conf
+  notify: restart apache
+
+# PHP
+
+- name: install ppa key for php5
+  apt_key: data="{{ lookup('file', 'ppa-ondrej.asc') }}" state=present
+
+
+- name: add php5 ppa
+  apt_repository: repo='ppa:ondrej/php5'
+
+- name: install PHP5 packages
+  apt: name={{ item }} force=yes state=latest
+  with_items:
+    - php5
+    - libapache2-mod-php5
+    - php5-cli
+    - php5-dev
+    - php5-mysql
+    - php-pear
+    - php5-mcrypt
+    - php5-gd
+    - php5-curl
+    - php5-xdebug
+    - php5-memcache
+    - php5-memcached
+    - php5-readline
+    - php5-sqlite
+
+- name: remove conflicting apache modules
+  file: dest=/etc/apache2/mods-enabled/{{ item }} state=absent
+  with_items:
+    - mpm_worker.conf
+    - mpm_worker.load
+  notify: restart apache
+
+- name: enable mod_php.conf
+  file: src=/etc/apache2/mods-available/php5.conf dest=/etc/apache2/mods-enabled/php5.conf state=link
+  notify: restart apache
+
+- name: enable mpm prefork .load
+  file: src=/etc/apache2/mods-available/mpm_prefork.load dest=/etc/apache2/mods-enabled/mpm_prefork.load state=link
+  notify: restart apache
+
+- name: enable mod_php.load
+  file: src=/etc/apache2/mods-available/php5.load dest=/etc/apache2/mods-enabled/php5.load state=link
+  notify: restart apache
+
+- file: path=/etc/php5/conf.d state=directory
+
+- template: src=php-custom.ini dest=/etc/php5/conf.d/php-custom.ini
+  notify: restart apache
+
+- file: src=/etc/php5/conf.d/php-custom.ini dest=/etc/php5/cli/conf.d/php-custom.ini state=link
+  notify: restart apache
+
+- file: src=/etc/php5/conf.d/php-custom.ini dest=/etc/php5/apache2/conf.d/php-custom.ini state=link
+  notify: restart apache
+
+- name: disable xdebug completely in production
+  file: path={{ item }} state=absent
+  with_items:
+    - /etc/php5/cli/conf.d/20-xdebug.ini
+    - /etc/php5/apache2/conf.d/20-xdebug.ini
+  notify: restart apache
+  when: customenv == "production"
+
+# make sure at the end that the right configuration symlinks
+
+- file: src=/etc/apache2/mods-available/{{ item }} dest=/etc/apache2/mods-enabled/{{ item }} state=link
+  notify: restart apache
+  with_items:
+      - rewrite.load
+      - headers.load
+      - proxy.load
+      - proxy_http.load
+
+- file: dest=/etc/apache2/sites-enabled/000-default.conf state=absent
+  notify: restart apache 
+
+# additional stuff
+
+- name: make sure deploy_user can overwrite blade templates
+  user: name={{ deploy_user }} append=yes groups=www-data
+  notify: 
+    - restart apache 
+    - reload supervisor
+
+- name: make sure www-data can overwrite blade templates
+  user: name=www-data append=yes groups={{ deploy_user }}
+  notify: 
+    - restart apache 
+    - reload supervisor
