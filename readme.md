@@ -16,7 +16,7 @@ N.b.: this is not intended as a scientific benchmark. All comments (improvements
 
 ## Setup
 
-This repository holds everything you need to run the benchmarks. You only need to be able to spin up an EC2 instance, as well as the required credentials to SSH into that instance.
+This repository holds everything you need to run the benchmarks on EC2. You only need to be able to spin up an EC2 instance, as well as the required credentials to SSH into that instance.
 
 ## Instructions
 
@@ -50,7 +50,7 @@ This repository holds everything you need to run the benchmarks. You only need t
 
 ### Running the benchmark
 
-The benchmark is run automatically as the last step of the provisioning. You can also run the benchmarks manually:
+The benchmark is run automatically as the last step of the provisioning. You can also run the benchmarks manually by `ssh`ing into the instance:
 
     cd /var/www/laravel
     bash benchmark.sh
@@ -69,10 +69,10 @@ Here are the results of a run on an `m3.medium` instance
     bench3;36.24
     bench4;25.46
 
-In other words, inserting a single row can be performed **461.15 times** using a bare PHP script, but only **25.46 times** using a Laravel route.
+In other words, inserting a single row can be performed **461.15 times per second** using a bare PHP script, but only **25.46 times per second** using a Laravel route.
 
 ## Conclusion
 
 Using Laravel seems to add a significant performance penalty on very simple scripts.
 
-It would be interesting to see if the performance can be improved easily. Comments welcome at pesterhazy@gmail.com
+Are these numbers in line with what people expect? It would be interesting to see if the performance can be improved easily. Comments welcome at pesterhazy@gmail.com
