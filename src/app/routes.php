@@ -13,5 +13,12 @@
 
 Route::get('/bench3', function()
 {
-	return View::make('hello');
+	return "All good\n";
+});
+
+Route::get('/bench4', function()
+{
+    DB::statement("insert into bubbles set name='bobble'");
+
+	return "All good, I inserted a row\n";
 });

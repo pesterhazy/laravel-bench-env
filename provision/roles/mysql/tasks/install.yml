@@ -1,0 +1,42 @@
+# MySQL
+
+- name: install MySQL
+  apt: name={{ item }} state=latest
+  with_items:
+    - mysql-server
+    - mysql-client
+    - python-mysqldb
+
+- name: check if mysql connection works properly
+  command: mysql -utester -pbubble tester -e 'select 1'
+  register: result
+  ignore_errors: True
+  changed_when: False
+
+- name: add mysql user
+  mysql_user: name=tester
+              host={{ item }}
+              password=bubble priv=*.*:ALL,GRANT
+              login_user=root
+              login_password=
+              check_implicit_admin=yes
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+  when: result|failed
+
+- name: create mysql databases
+  mysql_db: name={{ item }}
+            state=present
+  with_items:
+    - tester
+
+- file: path=/etc/mysql/conf.d state=directory
+
+- copy: src=max_connections.cnf dest=/etc/mysql/conf.d/max_connections.cnf
+  notify: restart mysql
+
+- name: set up mysql cli
+  copy: src=my.cnf dest=~/.my.cnf
+  sudo: False 

@@ -8,5 +8,6 @@
 
    roles:
      - common
+     - mysql
      - web-specific
      - web-custom

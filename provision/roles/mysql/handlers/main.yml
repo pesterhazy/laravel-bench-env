@@ -1,0 +1,10 @@
+# Caution: all handlers must be called with sudo:true
+# or else they will fail silently.
+
+- name: restart mysql
+  action: service name=mysql state=restarted
+  sudo: true
+
+- name: restart beanstalkd
+  action: service name=beanstalkd state=restarted
+  sudo: true

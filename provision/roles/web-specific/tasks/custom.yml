@@ -16,3 +16,11 @@
 
 - synchronize: src=../src/ dest=/var/www/laravel/
   sudo: false
+
+- name: artisan optimize
+  command: chdir=/var/www/laravel php artisan optimize
+  sudo: false
+
+- name: run migrations
+  command: chdir=/var/www/laravel php artisan migrate
+  sudo: false
