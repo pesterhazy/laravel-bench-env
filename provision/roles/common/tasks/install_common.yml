@@ -16,3 +16,8 @@
     - python-pip
     - python-dev
     - python-pycurl
+
+- name: install language packs for locales
+  apt: name={{ item }} state=latest
+  with_items:
+    - language-pack-de-base

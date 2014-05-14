@@ -71,8 +71,101 @@ Here are the results of a run on an `m3.medium` instance
 
 In other words, inserting a single row can be performed **461.15 times per second** using a bare PHP script, but only **25.46 times per second** using a Laravel route.
 
+A single request using the Laravel route `/bench4` takes about `22.779` ms, which is not too bad.
+
+## Output
+
+Here's the sample output of `ab -n1000 -c10 http://localhost/bench4`:
+
+```
+Server Software:        Apache/2.4.9
+Server Hostname:        localhost
+Server Port:            80
+
+Document Path:          /bench4
+Document Length:        27 bytes
+
+Concurrency Level:      10
+Time taken for tests:   16.059 seconds
+Complete requests:      1000
+Failed requests:        0
+Write errors:           0
+Total transferred:      755220 bytes
+HTML transferred:       27000 bytes
+Requests per second:    62.27 [#/sec] (mean)
+Time per request:       160.592 [ms] (mean)
+Time per request:       16.059 [ms] (mean, across all concurrent requests)
+Transfer rate:          45.92 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.6      0      16
+Processing:    20  159 198.4    131    2105
+Waiting:       14  141 195.1    102    2099
+Total:         20  159 198.5    132    2105
+
+Percentage of the requests served within a certain time (ms)
+  50%    132
+  66%    160
+  75%    184
+  80%    205
+  90%    269
+  95%    325
+  98%    601
+  99%   1356
+ 100%   2105 (longest request)
+```
+
+Here's the output for with no concurrency (`-c1`):
+
+```
+ab -n100 -c1 http://localhost/bench4
+This is ApacheBench, Version 2.3 <$Revision: 655654 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient).....done
+
+
+Server Software:        Apache/2.4.9
+Server Hostname:        localhost
+Server Port:            80
+
+Document Path:          /bench4
+Document Length:        27 bytes
+
+Concurrency Level:      1
+Time taken for tests:   2.278 seconds
+Complete requests:      100
+Failed requests:        0
+Write errors:           0
+Total transferred:      75454 bytes
+HTML transferred:       2700 bytes
+Requests per second:    43.90 [#/sec] (mean)
+Time per request:       22.779 [ms] (mean)
+Time per request:       22.779 [ms] (mean, across all concurrent requests)
+Transfer rate:          32.35 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       0
+Processing:    12   23  20.7     20     166
+Waiting:       12   22  20.4     19     162
+Total:         12   23  20.7     20     166
+
+Percentage of the requests served within a certain time (ms)
+  50%     20
+  66%     22
+  75%     22
+  80%     23
+  90%     26
+  95%     29
+  98%    162
+  99%    166
+ 100%    166 (longest request)
+```
 ## Conclusion
 
 Using Laravel seems to add a significant performance penalty on very simple scripts.
 
-Are these numbers in line with what people expect? It would be interesting to see if the performance can be improved easily. Comments welcome at pesterhazy@gmail.com
+Are these numbers in line with what people expect? It would be interesting to see if and how the performance can be improved easily. Comments welcome at pesterhazy@gmail.com
