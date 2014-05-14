@@ -3,7 +3,7 @@
   sudo: true
 
 - name: restart apache, just in case
-  action: service name=apache state=restarted
+  action: service name=apache2 state=restarted
   sudo: true
 
 - file: path={{ item }} mode=0777 owner={{ deploy_user }} group={{ deploy_user }} state=directory

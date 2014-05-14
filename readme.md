@@ -75,7 +75,7 @@ A single request using the Laravel route `/bench4` takes about `22.779` ms, whic
 
 ## Output
 
-Here's the sample output of `ab -n1000 -c10 http://localhost/bench4`:
+Here's the sample output of `ab -n1000 -c20 http://localhost/bench4`:
 
 ```
 This is ApacheBench, Version 2.3 <$Revision: 655654 $>
