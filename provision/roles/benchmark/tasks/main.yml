@@ -24,3 +24,11 @@
 - name: run migrations
   command: chdir=/var/www/laravel php artisan migrate
   sudo: false
+
+- name: run benchmarks
+  command: chdir=/var/www/laravel bash benchmark.sh
+  sudo: false
+
+- name: run benchmarks again
+  command: chdir=/var/www/laravel bash benchmark.sh
+  sudo: false
