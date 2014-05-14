@@ -61,7 +61,7 @@ The resulting numbers are written to `public/benchmark.csv`. If you have enabled
 
 ## Results
 
-Here are the results of a run
+Here are the results of a run on an `m3.medium` instance
 
     url;requests per second
     bench1.php;1621.42
@@ -69,8 +69,10 @@ Here are the results of a run
     bench3;36.24
     bench4;25.46
 
-In other words, inserting a single row can be performed 461.15 times using a bare PHP script, but only 25.46 times using a Laravel route.
+In other words, inserting a single row can be performed **461.15 times** using a bare PHP script, but only **25.46 times** using a Laravel route.
 
-## Contact
+## Conclusion
 
-Comments welcome at pesterhazy@gmail.com
+Using Laravel seems to add a significant performance penalty on very simple scripts.
+
+It would be interesting to see if the performance can be improved easily. Comments welcome at pesterhazy@gmail.com
