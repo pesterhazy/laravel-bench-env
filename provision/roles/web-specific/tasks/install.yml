@@ -93,12 +93,8 @@
 
 - name: make sure deploy_user can overwrite blade templates
   user: name={{ deploy_user }} append=yes groups=www-data
-  notify: 
-    - restart apache 
-    - reload supervisor
+  notify: restart apache 
 
 - name: make sure www-data can overwrite blade templates
   user: name=www-data append=yes groups={{ deploy_user }}
-  notify: 
-    - restart apache 
-    - reload supervisor
+  notify: restart apache 
