@@ -116,7 +116,7 @@ Percentage of the requests served within a certain time (ms)
  100%   2105 (longest request)
 ```
 
-Here's the output for with no concurrency (`-c1`):
+Here's the output without concurrency (`-c1`):
 
 ```
 ab -n100 -c1 http://localhost/bench4
