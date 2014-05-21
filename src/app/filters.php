@@ -19,7 +19,9 @@ App::before(function($request)
 
 App::after(function($request, $response)
 {
-	//
+	$elapsed = number_format((microtime(true)-$GLOBALS['starttime'])*1000.0,2,'.','');
+
+	error_log("Execution time: " . $elapsed);
 });
 
 /*
